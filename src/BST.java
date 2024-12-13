@@ -74,26 +74,31 @@ public class BST {
      * @return ArrayList of BSTNodes in inorder
      */
     public ArrayList<BSTNode> getInorder() {
-        // Initialize array of nodes
+        // Initialize arraylist of nodes
         ArrayList<BSTNode> nodes = new ArrayList<BSTNode>();
-        // Returns the final array in order
-        return inOrderHelper(nodes, root);
+        // Inputs 2 for inorder traversal and returns final arraylist in order
+        return traversalHelper(nodes, root, 2);
     }
 
-    public ArrayList<BSTNode> inOrderHelper(ArrayList<BSTNode> list, BSTNode root) {
-        // If current root is null, return the list
+    public ArrayList<BSTNode> traversalHelper(ArrayList<BSTNode> list, BSTNode root, int orderType) {
+        // If the current root is null, exit back to the previous node
         if (root == null) {
             return list;
         }
-        // If root has no children, add the root to list
-        if (root.getLeft() == null && root.getRight() == null) {
+        // In preorder case (when orderType is 1) add the root before the left and right
+        if (orderType == 1) {
             list.add(root);
-            return list;
         }
-        // In order - left child, root, right child
-        inOrderHelper(list, root.getLeft());
-        list.add(root);
-        inOrderHelper(list, root.getRight());
+        traversalHelper(list, root.getLeft(), orderType);
+        // In inorder case (when orderType is 2) add the root between the left and right
+        if (orderType == 2) {
+            list.add(root);
+        }
+        traversalHelper(list, root.getRight(), orderType);
+        // In postorder case (orderType a is 3) add the root after the left and right
+        if (orderType == 3) {
+            list.add(root);
+        }
         return list;
     }
 
@@ -101,23 +106,10 @@ public class BST {
      * @return ArrayList of BSTNodes in preorder
      */
     public ArrayList<BSTNode> getPreorder() {
-        // Initialize array of nodes
+        // Initialize arraylist of nodes
         ArrayList<BSTNode> nodes = new ArrayList<BSTNode>();
-        // Returns the final array in preOrder
-        return preOrderHelper(nodes, root);
-    }
-
-    public ArrayList<BSTNode> preOrderHelper(ArrayList<BSTNode> list, BSTNode root) {
-        // If root has no childre, add root
-        if (root.getLeft() == null && root.getRight() == null) {
-            list.add(root);
-            return list;
-        }
-        // In preorder: root, left child, right child
-        list.add(root);
-        preOrderHelper(list, root.getLeft());
-        preOrderHelper(list, root.getRight());
-        return list;
+        // Inputs 1 for preorder traversal and returns final arraylist in preorder
+        return traversalHelper(nodes, root, 1);
     }
 
     /**
@@ -126,21 +118,8 @@ public class BST {
     public ArrayList<BSTNode> getPostorder() {
         // Initialize array of nodes
         ArrayList<BSTNode> nodes = new ArrayList<BSTNode>();
-        // Returns arraylist in postOrder
-        return postOrderHelper(nodes, root);
-    }
-
-    public ArrayList<BSTNode> postOrderHelper(ArrayList<BSTNode> list, BSTNode root) {
-        // If root has no childre, add to list
-        if (root.getLeft() == null && root.getRight() == null) {
-            list.add(root);
-            return list;
-        }
-        // In postOrder - left, right, root
-        postOrderHelper(list, root.getLeft());
-        postOrderHelper(list, root.getRight());
-        list.add(root);
-        return list;
+        // Inputs 3 for postorder traversal and returns final arraylist in postorder
+        return traversalHelper(nodes, root, 3);
     }
 
     /**
